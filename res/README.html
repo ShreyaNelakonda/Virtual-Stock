@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Virtual Stock</title>
+</head>
+<body>
+
+<h1>Virtual Stock</h1>
+<p>An application that helps users who are new to investing to learn about how money could grow,
+in the style of "virtual gambling".
+Similar to virtual gambling, our application will not use real money and investment.
+<p>Instead, it will allow the user to create investment portfolios,
+try out buying and selling of stock, and various investment strategies
+to see how they can grow (or shrink) their money with time.
+<h3> Features </h3>
+<p> List of features which are implemented in the Virtual Stock program.</p>
+<ol>
+    <li> <b> Allow a user to create one or more portfolios with shares of one or more stock. </b>
+         </li>
+        <ul>
+            <li>User can create 2 types of portfolios- flexible and inflexible.</li>
+            <li>Inflexible portfolios cannot be edited once created.</li>
+            <li>User can update(buy/sell more stocks) flexible portfolio after creation.</li>
+            <li>Our program supports one user which is active user.</li>
+            <li>User data is stored in file database system.</li>
+            <li>There are 3 ways by which user can create portfolios.</li>
+                <h4> Initializing portfolios</h4>
+                <ul>
+                    <li>User can start with a blank portfolio.</li>
+                    <li>User can load previous non-empty portfolio from the file database.</li>
+                    <li>User can load a single external file that contains list of portfolio
+                        in csv format.
+                        </br> Format for each row (Inflexible) : portfolio name, ticker symbol, quantity, false (flag for inflexible).
+                        </br> Format for each row (Flexible) : portfolio name, ticker symbol, quantity, true (flag for flexible),
+                        transaction date (YYYY-MM-DD), commission fee, buy (true/false)
+                    </li>
+                </ul>
+                <p>
+                    All the above options, once selected will overwrite the previous profile
+                    in the user database file.
+                </p>
+
+                <p>
+                    While loading existing or external portfolios,
+                    if there is any IOException because of error during file operations,
+                    an appropriate message is displayed.
+                    </br>
+                    An appropriate error message is displayed for invalid inputs.
+                    Invalid inputs : Quantity less than 1, Non-integer quantity,
+                    commission fee less than or equal to 0.
+                    </br>If ticker symbol does not exist, then corresponding stock is skipped in the portfolio.
+                </p>
+                <h4> Adding a new inflexible portfolio</h4>
+                <ul>
+                    <li> User can add a new portfolio into his existing profile from
+                        Main Menu option 1 and then selecting inflexible portfolio. </li>
+                    <li> User needs to provide input as portfolio name (alphanumeric) & list of
+                        stocks to be added to that portfolio. </li>
+                    <li> Portfolio name and ticker symbol are case-insensitive.</li>
+                    <li> For each stock, user selects a valid ticker symbol and mentions
+                        the quantity (positive integer). </li>
+                    <li> If there are two stocks of same ticker in the stock list
+                        then we combine them into one by updating its quantity to the sum of
+                        all of duplicates. </li>
+                    <Li> Current price for the stock is the latest available price (closing price)
+                        for that ticker symbol.</Li>
+                    <li> Once the portfolio is saved, user cannot update its content. </li>
+                    <li> When user adds the portfolio into their profile,
+                        it is persisted in the file database, which can be loaded
+                        next time they use the program.</li>
+                    <li> For invalid inputs, appropriate message is displayed. </li>
+                    <li> Invalid inputs : Non-alphanumeric characters for portfolio name,
+                        Quantity less than 1, Non-integer quantity,
+                        Ticker Symbol not found in the database. </li>
+                </ul>
+
+            <h4> Adding a new flexible portfolio</h4>
+            <ul>
+                <li> User can add a new portfolio into his existing profile from
+                    Main Menu option 1 and then selecting flexible portfolio. </li>
+                <li> User needs to provide input as portfolio name (alphanumeric) & list of
+                    stocks to be added to that portfolio. </li>
+                <li> Portfolio name and ticker symbol are case-insensitive.</li>
+                <li> For each stock, user selects a valid ticker symbol and mentions
+                    the quantity (positive integer), valid transaction date (YYYY-MM-DD),
+                    commission fee (greater than 0), buy/sell. </li>
+                <li> If there are two stocks of same ticker having the same transaction date and
+                    are of same type (buy/sell) in the stock list
+                    then we combine them into one by updating its quantity and commission fee to the sum of
+                    all of duplicates. </li>
+                <Li> Invested price for the stock is the closing price on the transaction date
+                    for that ticker symbol.</Li>
+                <li> Once the portfolio is saved, user can add/sell more stocks by selecting
+                    option 5: to purchase/sell shares in existing portfolio from the main menu. </li>
+                <li> Stocks can only be sold if equivalent amount of stocks are already present in the portfolio.</li>
+                <li> When user adds the portfolio into their profile,
+                    it is persisted in the file database, which can be loaded
+                    next time they use the program.</li>
+                <li> For invalid inputs, appropriate message is displayed. </li>
+                <li> Invalid inputs : Non-alphanumeric characters for portfolio name,
+                    Quantity less than 1, Non-integer quantity, commission fee less than or equal to 0
+                    Ticker Symbol does not exist. </li>
+            </ul>
+        </ul>
+    <br>
+    <li> <b> Get list of portfolios.</b> </li>
+        <ul>
+            <li> Displays list of flexible and inflexible portfolios (identified by its portfolio name)
+                for the given user. </li>
+            <li> If portfolio list is empty, then corresponding message is displayed. </li>
+        </ul>
+    <br>
+    <li> <b> Examine the composition of a portfolio.</b> </li>
+    <b>Flexible Portfolio</b>
+        <ul>
+            <li> Displays composition of stocks for given portfolio name on a given date.</li>
+            <li> Each composition of stock display ticker symbol of the stock,
+                quantity and percentage of stock quantity in the portfolio.</li>
+            <li> If portfolio name is not present, then corresponding message is displayed.</li>
+        </ul>
+    <b>Inflexible Portfolio</b>
+            <ul>
+                <li> Displays composition of stocks for given portfolio name.</li>
+                <li> Each composition of stock display ticker symbol of the stock,
+                    quantity and percentage of stock quantity in the portfolio.</li>
+                <li> If portfolio name is not present, then corresponding message is displayed.</li>
+            </ul>
+    </br>
+    <li> <b> Determine the total value of a portfolio on a certain date.</b> </li>
+        <ul>
+            <li>User selects existing portfolio name and a certain date (YYYY-MM-DD).</li>
+            <li>For above inputs, program will provide price of the given portfolio
+                for the given date.</li>
+            <li>Date should be in the past. Date must exist in the stock database.</li>
+            <li>If date format is invalid, then corresponding message is displayed.</li>
+            <li>If portfolio name is not present, then corresponding message is displayed.</li>
+            <li>For flexible portfolio, if stocks are not present in the portfolio
+                (stocks were added after the given date or were sold before the given date)
+                on the given date the value returned will be 0.00</li>
+            <li>For inflexible portfolio, the portfolio value will be displayed for any given date
+                irrespective of when stocks were added to the portfolio.</li>
+        </ul>
+    </br>
+
+    <li> <b> Cost Basis </b> </li>
+    <ul>
+        <li>User can check the cost basis only for flexible portfolios.
+            If the option is selected for an inflexible portfolio then an appropriate error message will be displayed.</li>
+        <li>User can check the cost basis by selecting option 6: to compute cost basis from the main menu.</li>
+        <li>Cost basis (i.e. the total amount of money invested in a portfolio) by a specific date.
+            This would include all the purchases made in that portfolio till that date including commission fee.</li>
+    </ul>
+    </br>
+
+    <li> <b> Portfolio Performance Over Time </b> </li>
+    </br>
+    <ul>
+        <b> Text Based UI performance chart </b>
+        <li>User can check the Portfolio Performance Over Time only for flexible portfolios.
+            If the option is selected for an inflexible portfolio then an appropriate error message will be displayed.</li>
+        <li>User can check the Portfolio Performance by selecting option 7: to check portfolio performance
+            from the main menu.</li>
+        <li>User can select start date and end date as performance range. The user can enter this range in 3 ways:
+            day, month and year.</li>
+        <li>Performance graph for a portfolio denotes the value of that portfolio over the time
+            range selected by the user</li>
+        <li>The scale of the graph is relative and it is based on the minimum-maximum value.</li>
+        <li>The minimum timestamp of the graph is 5 and the maximum is 30.</li>
+        <li>The scale of the horizontal axis is decided by the range of values of the portfolios,
+            so that there are no more than 50 asterisks on each line.</li>
+    </ul>
+
+    </br>
+    <ul>
+        <b> GUI performance chart </b>
+        <li>Displays performance of portfolio over a given range using bar chart.</li>
+        <li>Years are displayed over X-axis.</li>
+        <li>Portfolio's value is Y-axis.</li>
+        <li>Particular value of portfolio at given time interval is displayed on its bar.</li>
+    </ul>
+    </br>
+
+    <li> <b> Persist a portfolio so that it can be saved and loaded (i.e. save to
+        and retrieve from files) </b> </li>
+        <ul>
+            <li> Program uses file system to persist the portfolio data created by the user. </li>
+            <li> All the portfolios are stored in a single csv file.</li>
+            <li> Format for each row (Inflexible) : portfolio name, ticker symbol, quantity,
+                flexible (true/false) separated by comma separator</li>
+            <li> Format for each row (Flexible) : portfolio name, ticker symbol, quantity, flexible (true/false),
+                transaction date (YYYY-MM-DD), commission fee, buy (true/false) separated by comma separator</li>
+            <li> Portfolio is persisted for the given user when they save or update(only for flexible) their portfolio.</li>
+            <li> Persisted portfolio can be loaded again as mentioned in
+                Section1 : Initialization of Portfolios.</li>
+        </ul>
+    </br>
+
+    <li> <b> Two view implementation - Text and GUI </b> </li>
+    <ul>
+        <li> Program now supports GUI implementation using Java Swing. </li>
+        <li> Text based and GUI view co-exists. </li>
+        <li> User can select their desired view using appropriate command argument while intializing the application.</li>
+
+        <h4> Text based UI</h4>
+        <ul>
+            <li> Use args -text for Text based UI.</li>
+            <li> Features supported in text based UI are as follows : </li>
+            1. Create Flexible/Inflexible portfolios. </br>
+            2. View Flexible/Inflexible portfolios. </br>
+            3. Check Flexible/Inflexible Portfolio Composition. </br>
+            4. View price of Flexible/Inflexible Portfolios. </br>
+            5. Buy or sell new stock in flexible portfolio. </br>
+            6. Cost basis of Flexible Portfolios </br>
+            7. Portfolio Performance of Flexible portfolios. </br>
+        </ul>
+
+        <h4> GUI using Java Swing</h4>
+        <ul>
+            <li> Use args -gui for Graphical based UI.</li>
+            <li> Features supported in text based UI are as follows : </li>
+            1. Create Flexible portfolios. </br>
+            2. View Flexible/Inflexible portfolios. </br>
+            3. Check Flexible Portfolio Composition. </br>
+            4. View price of Flexible Portfolios. </br>
+            5. Buy or sell new stocks using quantity on a certain date in Flexible portfolio. </br>
+            6. Invest a specific amount in an existing flexible portfolio on a specific date by specifying the weights. </br>
+            7. Cost basis of Flexible Portfolios </br>
+            8. Dollar Cost Averaging Strategy for Flexible portfolios. </br>
+            9. Portfolio Performance of Flexible portfolios. </br>
+        </ul>
+    </ul>
+    </br>
+
+        <li> <b> Dollar Cost Averaging Strategy </b> </li>
+        <ul>
+            <li>Invest a fixed amount into an existing portfolio containing multiple stocks,
+                using a specified weight for each stock in the portfolio. </li>
+            <li> "start-to-finish" dollar-cost averaging as a single operation : </br>
+                for each strategy, user mentions start and end date (YYYY-MM-DD), frequency of investment (number of days),
+                amount to be invested (>0), commission fee (>=0) </li>
+            <li> User can add multiple valid stocks and specify proportion (%) of money to be invested for each stock.</li>
+            <li> Of course, total percentage (sum of proportion of all stocks within a strategy) will be 100%. </li>
+            <li> Dollar cost averaging supports buying fractional quantity of stock based on the amount to be invested in it.</li>
+        </ul>
+
+
+</ol>
+
+    <b> Version </b>
+    <ul>
+        <li> v1 : Support for Inflexible Portfolios in text based view </li>
+        <li> v2 : Support for Flexible Portfolios in text based view </li>
+        <li> v3 : Support for Flexible Portfolios & Dollar Cost Averaging Strategy in Graphical User Interface based view </li>
+    </ul>
+</body>
+</html>
